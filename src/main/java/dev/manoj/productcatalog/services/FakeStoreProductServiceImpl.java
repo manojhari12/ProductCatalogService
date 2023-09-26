@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,8 +21,25 @@ public class FakeStoreProductServiceImpl implements ProductService {
     //and using rest template we can do a http call to 3rd party apis
     private RestTemplateBuilder restTemplateBuilder;
     @Override
-    public List<Product> getAllProducts() {
-        return null;
+    public  List<Product> getAllProducts() {
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        ResponseEntity<ProductDto[]> ProductsArray = restTemplate.getForEntity(
+                "https://fakestoreapi.com/products",
+                ProductDto[].class
+        );
+        List<Product> productList = new ArrayList<>();
+        for(ProductDto productDto : ProductsArray.getBody()){
+            Product product = Product.builder()
+                    .title(productDto.getTitle())
+                    .description(productDto.getDescription())
+                    .price(productDto.getPrice())
+                    .imageUrl(productDto.getImage())
+                    .rating(productDto.getRating().toRating())
+                    .build();
+            productList.add(product);
+
+        }
+        return productList;
     }
 
 
