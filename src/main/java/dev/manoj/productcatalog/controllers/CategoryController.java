@@ -1,14 +1,17 @@
 package dev.manoj.productcatalog.controllers;
 
 
+import dev.manoj.productcatalog.models.Product;
 import dev.manoj.productcatalog.services.CategoryService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/products/categories")
+@RequestMapping("/products/category")
 public class CategoryController {
     private CategoryService categoryService;
 
@@ -21,8 +24,8 @@ public class CategoryController {
         return "Getting all categories";
     }
 
-    @GetMapping("/{categoryId}")
-    public String getProductsInCategory(@PathVariable("categoryId") Long categoryId) {
-        return "Get products in category";
+    @GetMapping("/{categoryType}")
+    public List<Product> getProductsInCategory(@PathVariable String categoryType) {
+        return categoryService.getProductsInCategory(categoryType);
     }
 }

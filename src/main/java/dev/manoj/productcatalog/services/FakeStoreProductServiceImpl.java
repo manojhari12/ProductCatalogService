@@ -49,6 +49,7 @@ public class FakeStoreProductServiceImpl implements ProductService {
             RestTemplate restTemplate = restTemplateBuilder.build();
             //It will return the response entity of the product DTO from the API call
             ResponseEntity<ProductDto> productDto = restTemplate.getForEntity("https://fakestoreapi.com/products/{id}", ProductDto.class, productId);
+            System.out.println("Product DTO id : "+productDto.getBody().getId());
             return productDto;
         }
 

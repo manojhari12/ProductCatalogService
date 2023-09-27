@@ -35,12 +35,14 @@ public class ProductController {
 
         ProductDto productDto = productService.getSingleProduct(productId).getBody();
         Product product = Product.builder()
+
                 .title(productDto.getTitle())
                 .description(productDto.getDescription())
                 .price(productDto.getPrice())
                 .imageUrl(productDto.getImage())
                 .rating(productDto.getRating().toRating())
                 .build();
+        product.setId(productDto.getId());
         ResponseEntity<Product> responseEntity = new ResponseEntity<>(product,headers, HttpStatus.OK);
 
         return responseEntity;
@@ -49,21 +51,22 @@ public class ProductController {
 
 
     @PostMapping()
-    public ResponseEntity<Product> addNewProduct(@RequestBody ProductDto product) {
-        ProductDto productDto = productService.addNewProduct(product);
+    public ResponseEntity<Product> addNewProduct(@RequestBody ProductDto productDtoObj) {
+        ProductDto productDto = productService.addNewProduct(productDtoObj);
         Product postProduct = Product.builder()
                 .title(productDto.getTitle())
                 .description(productDto.getDescription())
                 .price(productDto.getPrice())
                 .imageUrl(productDto.getImage())
                 .build();
-        postProduct.setId(product.getId());
+        postProduct.setId(productDtoObj.getId());
         return new ResponseEntity<>(postProduct, HttpStatus.OK);
 
     }
 
     @PutMapping("/{productId}")
     public String updateProduct(@PathVariable("productId") Long productId) {
+
         return "Updating product";
     }
 
