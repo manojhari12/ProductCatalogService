@@ -1,6 +1,7 @@
 package dev.manoj.productcatalog.services;
 
 
+import dev.manoj.productcatalog.dtos.FakeStoreProductDto;
 import dev.manoj.productcatalog.dtos.ProductDto;
 import dev.manoj.productcatalog.models.Product;
 import org.springframework.http.ResponseEntity;
@@ -10,9 +11,9 @@ import java.util.List;
 public interface ProductService {
     List<Product> getAllProducts();
 
-    ResponseEntity<ProductDto> getSingleProduct(Long productId);
+    ResponseEntity<FakeStoreProductDto> getSingleProduct(Long productId);
 
-    ProductDto addNewProduct(ProductDto product);
+    FakeStoreProductDto addNewProduct(FakeStoreProductDto product);
 
     /*
     Product object has only those fields filled which need to be updated.

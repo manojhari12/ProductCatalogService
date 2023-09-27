@@ -1,7 +1,7 @@
 package dev.manoj.productcatalog.controllers;
 
 
-import dev.manoj.productcatalog.dtos.ProductDto;
+import dev.manoj.productcatalog.dtos.FakeStoreProductDto;
 import dev.manoj.productcatalog.models.Product;
 import dev.manoj.productcatalog.services.ProductService;
 import org.springframework.http.HttpStatus;
@@ -33,7 +33,7 @@ public class ProductController {
         headers.add("auth-token","permission-granted");
         headers.add("auth-token","Temporary access");
 
-        ProductDto productDto = productService.getSingleProduct(productId).getBody();
+        FakeStoreProductDto productDto = productService.getSingleProduct(productId).getBody();
         Product product = Product.builder()
 
                 .title(productDto.getTitle())
@@ -51,8 +51,8 @@ public class ProductController {
 
 
     @PostMapping()
-    public ResponseEntity<Product> addNewProduct(@RequestBody ProductDto productDtoObj) {
-        ProductDto productDto = productService.addNewProduct(productDtoObj);
+    public ResponseEntity<Product> addNewProduct(@RequestBody FakeStoreProductDto productDtoObj) {
+        FakeStoreProductDto productDto = productService.addNewProduct(productDtoObj);
         Product postProduct = Product.builder()
                 .title(productDto.getTitle())
                 .description(productDto.getDescription())

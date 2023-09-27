@@ -1,7 +1,7 @@
 package dev.manoj.productcatalog.services;
 
 
-import dev.manoj.productcatalog.dtos.ProductDto;
+import dev.manoj.productcatalog.dtos.FakeStoreProductDto;
 import dev.manoj.productcatalog.models.Product;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -23,18 +23,18 @@ public class FakeStoreProductServiceImpl implements ProductService {
     @Override
     public  List<Product> getAllProducts() {
         RestTemplate restTemplate = restTemplateBuilder.build();
-        ResponseEntity<ProductDto[]> ProductsArray = restTemplate.getForEntity(
+        ResponseEntity<FakeStoreProductDto[]> ProductsArray = restTemplate.getForEntity(
                 "https://fakestoreapi.com/products",
-                ProductDto[].class
+                FakeStoreProductDto[].class
         );
         List<Product> productList = new ArrayList<>();
-        for(ProductDto productDto : ProductsArray.getBody()){
+        for(FakeStoreProductDto fakeStoreProductDto : ProductsArray.getBody()){
             Product product = Product.builder()
-                    .title(productDto.getTitle())
-                    .description(productDto.getDescription())
-                    .price(productDto.getPrice())
-                    .imageUrl(productDto.getImage())
-                    .rating(productDto.getRating().toRating())
+                    .title(fakeStoreProductDto.getTitle())
+                    .description(fakeStoreProductDto.getDescription())
+                    .price(fakeStoreProductDto.getPrice())
+                    .imageUrl(fakeStoreProductDto.getImage())
+                    .rating(fakeStoreProductDto.getRating().toRating())
                     .build();
             productList.add(product);
 
@@ -44,24 +44,24 @@ public class FakeStoreProductServiceImpl implements ProductService {
 
 
         @Override
-        public ResponseEntity<ProductDto> getSingleProduct(Long productId) {
+        public ResponseEntity<FakeStoreProductDto> getSingleProduct(Long productId) {
             //Created a rest template instance to call fake store api
             RestTemplate restTemplate = restTemplateBuilder.build();
             //It will return the response entity of the product DTO from the API call
-            ResponseEntity<ProductDto> productDto = restTemplate.getForEntity("https://fakestoreapi.com/products/{id}", ProductDto.class, productId);
-            System.out.println("Product DTO id : "+productDto.getBody().getId());
-            return productDto;
+            ResponseEntity<FakeStoreProductDto> fakeStoreProductDto = restTemplate.getForEntity("https://fakestoreapi.com/products/{id}", FakeStoreProductDto.class, productId);
+            System.out.println("Product DTO id : "+fakeStoreProductDto.getBody().getId());
+            return fakeStoreProductDto;
         }
 
     @Override
-    public ProductDto addNewProduct(ProductDto productDto) {
+    public FakeStoreProductDto addNewProduct(FakeStoreProductDto fakeStoreProductDto) {
         RestTemplate restTemplate = restTemplateBuilder.build();
-        ResponseEntity<ProductDto> productDto1 = restTemplate.postForEntity("https://fakestoreapi.com/products",
-                productDto, //Request Body
-                ProductDto.class //Return type class
+        ResponseEntity<FakeStoreProductDto> fakeStoreProductDto1 = restTemplate.postForEntity("https://fakestoreapi.com/products",
+                fakeStoreProductDto, //Request Body
+                FakeStoreProductDto.class //Return type class
                 );
 
-        return productDto1.getBody();
+        return fakeStoreProductDto1.getBody();
     }
 
     @Override

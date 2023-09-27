@@ -1,6 +1,6 @@
 package dev.manoj.productcatalog.services;
 
-import dev.manoj.productcatalog.dtos.ProductDto;
+import dev.manoj.productcatalog.dtos.FakeStoreProductDto;
 import dev.manoj.productcatalog.models.Product;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -40,25 +40,25 @@ public class FakeStoreCategoryServiceImpl implements CategoryService {
     public List<Product> getProductsInCategory(String categoryType) {
         RestTemplate restTemplate = restTemplateBuilder.build();
 
-        ResponseEntity<ProductDto[]> productFromCategory = restTemplate.getForEntity("https://fakestoreapi.com/products/category/{type}",
-                ProductDto[].class,
+        ResponseEntity<FakeStoreProductDto[]> productFromCategory = restTemplate.getForEntity("https://fakestoreapi.com/products/category/{type}",
+                FakeStoreProductDto[].class,
                 categoryType);
 //        System.out.println(productFromCategory);
         return getProductsFromProductList(productFromCategory);
     }
 
 
-    private List<Product> getProductsFromProductList(ResponseEntity<ProductDto[]> productFromCategory) {
+    private List<Product> getProductsFromProductList(ResponseEntity<FakeStoreProductDto[]> productFromCategory) {
         List<Product> productList=new ArrayList<>();
-        for(ProductDto productDto : productFromCategory.getBody() ){
+        for(FakeStoreProductDto fakeStoreProductDto : productFromCategory.getBody() ){
             Product product = Product.builder()
-                    .title(productDto.getTitle())
-                    .description(productDto.getDescription())
-                    .price(productDto.getPrice())
-                    .imageUrl(productDto.getImage())
-                    .rating(productDto.getRating().toRating())
+                    .title(fakeStoreProductDto.getTitle())
+                    .description(fakeStoreProductDto.getDescription())
+                    .price(fakeStoreProductDto.getPrice())
+                    .imageUrl(fakeStoreProductDto.getImage())
+                    .rating(fakeStoreProductDto.getRating().toRating())
                     .build();
-            product.setId(productDto.getId());
+            product.setId(fakeStoreProductDto.getId());
             productList.add(product);
 
         }
