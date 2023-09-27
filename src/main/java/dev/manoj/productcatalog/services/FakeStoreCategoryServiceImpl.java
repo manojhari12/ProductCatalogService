@@ -26,20 +26,31 @@ public class FakeStoreCategoryServiceImpl implements CategoryService {
 //    private RestTemplate restTemplate;
 
     @Override
-    public String   getAllCategories() {
-        return null;
+    public String[]  getAllCategories() {
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        ResponseEntity<String[]> AllCategoryEntities = restTemplate.getForEntity("https://fakestoreapi.com/products/categories",
+                String[].class);
+        return AllCategoryEntities.getBody();
+
     }
+
+
 
     @Override
     public List<Product> getProductsInCategory(String categoryType) {
         RestTemplate restTemplate = restTemplateBuilder.build();
 
-        ProductDto[] productFromCategory = restTemplate.getForObject("https://fakestoreapi.com/products/category/{type}",
+        ResponseEntity<ProductDto[]> productFromCategory = restTemplate.getForEntity("https://fakestoreapi.com/products/category/{type}",
                 ProductDto[].class,
                 categoryType);
-        System.out.println(productFromCategory);
+//        System.out.println(productFromCategory);
+        return getProductsFromProductList(productFromCategory);
+    }
+
+
+    private List<Product> getProductsFromProductList(ResponseEntity<ProductDto[]> productFromCategory) {
         List<Product> productList=new ArrayList<>();
-        for(ProductDto productDto : productFromCategory ){
+        for(ProductDto productDto : productFromCategory.getBody() ){
             Product product = Product.builder()
                     .title(productDto.getTitle())
                     .description(productDto.getDescription())

@@ -12,7 +12,8 @@ public class RatingDTO {
     private Integer count;
 
     public Rating toRating(){
-        return Rating.builder()
+        return Rating
+                .builder()
                 .rate(rate)
                 .count(count)
                 .build();

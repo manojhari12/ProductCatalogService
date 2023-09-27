@@ -1,14 +1,13 @@
 package dev.manoj.productcatalog.dtos;
 
 import lombok.Getter;
-import jakarta.annotation.Nullable;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
 @ToString
-public class ProductDto {
+public class FakeStoreProductDto {
 
     private Long id;
     private String title;
@@ -17,6 +16,6 @@ public class ProductDto {
     private String image;
     private String category;
     private RatingDTO rating;
-//    private String spec;
+
 
 }

@@ -20,8 +20,8 @@ public class CategoryController {
     }
 
     @GetMapping()
-    public String getAllCategories() {
-        return "Getting all categories";
+    public String[] getAllCategories() {
+        return categoryService.getAllCategories();
     }
 
     @GetMapping("/{categoryType}")
