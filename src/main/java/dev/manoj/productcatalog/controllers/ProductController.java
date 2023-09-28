@@ -67,9 +67,17 @@ public class ProductController {
     }
 
     @PutMapping("/{productId}")
-    public ProductDto updateProduct(@PathVariable("productId") Long productId, @RequestBody ProductDto productDto) {
+    public ProductDto replaceProduct(@PathVariable("productId") Long productId, @RequestBody ProductDto productDto) {
         Product product = convertProductDtoToProduct(productDto);
         return convertProductToProductDto(productService.replaceProduct(productId, product));
+
+    }
+    @PatchMapping("/{productId}")
+    public ProductDto updateProduct(@PathVariable("productId") Long productId, @RequestBody ProductDto productDto) {
+
+        Product product = productService.updateProduct(productId, convertProductDtoToProduct(productDto));
+        System.out.println("Product Image "+product.getImageUrl());
+        return convertProductToProductDto(product);
 
     }
 
@@ -86,6 +94,7 @@ public class ProductController {
                 .title(productDto.getTitle())
                 .price(productDto.getPrice())
                 .description(productDto.getDescription())
+                .imageUrl(productDto.getImage())
                 .category(category)
                 .build();
     }
