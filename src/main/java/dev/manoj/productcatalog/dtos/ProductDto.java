@@ -1,5 +1,6 @@
 package dev.manoj.productcatalog.dtos;
 
+import lombok.Builder;
 import lombok.Getter;
 import jakarta.annotation.Nullable;
 import lombok.Setter;
@@ -7,6 +8,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
+@Builder
 @ToString
 public class ProductDto {
 

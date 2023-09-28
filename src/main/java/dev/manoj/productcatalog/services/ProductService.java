@@ -19,6 +19,7 @@ public interface ProductService {
     Product object has only those fields filled which need to be updated.
     Everything else is null
      */
+    Product replaceProduct(Long productId, Product product);
     Product updateProduct(Long productId, Product product);
     // if (product.getImageUrl() != null) {
     //

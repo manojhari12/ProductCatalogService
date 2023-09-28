@@ -2,6 +2,8 @@ package dev.manoj.productcatalog.controllers;
 
 
 import dev.manoj.productcatalog.dtos.FakeStoreProductDto;
+import dev.manoj.productcatalog.dtos.ProductDto;
+import dev.manoj.productcatalog.models.Category;
 import dev.manoj.productcatalog.models.Product;
 import dev.manoj.productcatalog.services.ProductService;
 import org.springframework.http.HttpStatus;
@@ -65,13 +67,36 @@ public class ProductController {
     }
 
     @PutMapping("/{productId}")
-    public String updateProduct(@PathVariable("productId") Long productId) {
+    public ProductDto updateProduct(@PathVariable("productId") Long productId, @RequestBody ProductDto productDto) {
+        Product product = convertProductDtoToProduct(productDto);
+        return convertProductToProductDto(productService.replaceProduct(productId, product));
 
-        return "Updating product";
     }
 
     @DeleteMapping("/{productId}")
     public String deleteProduct(@PathVariable("productId") Long productId) {
         return "Deleting a product with id: " + productId;
+    }
+
+
+    public Product convertProductDtoToProduct(ProductDto productDto){
+        Category category=new Category();
+        category.setName(productDto.getCategory());
+        return Product.builder()
+                .title(productDto.getTitle())
+                .price(productDto.getPrice())
+                .description(productDto.getDescription())
+                .category(category)
+                .build();
+    }
+    public ProductDto convertProductToProductDto(Product product){
+        return ProductDto.builder()
+                .id(product.getId())
+                .title(product.getTitle())
+                .description(product.getDescription())
+                .price(product.getPrice())
+                .image(product.getImageUrl())
+                .category(product.getCategory().getName())
+                .build();
     }
 }
