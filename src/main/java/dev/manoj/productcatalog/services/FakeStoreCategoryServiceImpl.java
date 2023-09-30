@@ -1,36 +1,37 @@
 package dev.manoj.productcatalog.services;
 
-import dev.manoj.productcatalog.dtos.FakeStoreProductDto;
+import dev.manoj.productcatalog.clients.fakeStoreApi.FakeStoreClient;
+import dev.manoj.productcatalog.clients.fakeStoreApi.FakeStoreProductDto;
+import dev.manoj.productcatalog.models.Category;
 import dev.manoj.productcatalog.models.Product;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
 
 public class FakeStoreCategoryServiceImpl implements CategoryService {
-    private RestTemplateBuilder restTemplateBuilder;
-
+    private FakeStoreClient fakeStoreClient;
 //    private RestTemplate restTemplate;
 
     @Override
-    public String[]  getAllCategories() {
-        RestTemplate restTemplate = restTemplateBuilder.build();
-        ResponseEntity<String[]> AllCategoryEntities = restTemplate.getForEntity("https://fakestoreapi.com/products/categories",
-                String[].class);
-        return AllCategoryEntities.getBody();
+    public List<Category>  getAllCategories() {
+        List<String> allCategories = fakeStoreClient.getAllCategories();
+        List<Category> categoryList = new ArrayList<>();
+        for(String categoryName : allCategories){
+            categoryList.add(
+                    Category.builder()
+                            .name(categoryName)
+                            .build()
+            );
+        }
+        return categoryList;
 
     }
 
@@ -38,13 +39,8 @@ public class FakeStoreCategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Product> getProductsInCategory(String categoryType) {
-        RestTemplate restTemplate = restTemplateBuilder.build();
-
-        ResponseEntity<FakeStoreProductDto[]> productFromCategory = restTemplate.getForEntity("https://fakestoreapi.com/products/category/{type}",
-                FakeStoreProductDto[].class,
-                categoryType);
-//        System.out.println(productFromCategory);
-        return getProductsFromProductList(productFromCategory);
+        ResponseEntity<FakeStoreProductDto[]> fakeStoreProductDtoResponseEntity = fakeStoreClient.getProductsInCategory(categoryType);
+        return getProductsFromProductList(fakeStoreProductDtoResponseEntity);
     }
 
 
@@ -52,13 +48,13 @@ public class FakeStoreCategoryServiceImpl implements CategoryService {
         List<Product> productList=new ArrayList<>();
         for(FakeStoreProductDto fakeStoreProductDto : productFromCategory.getBody() ){
             Product product = Product.builder()
+                    .id(fakeStoreProductDto.getId())
                     .title(fakeStoreProductDto.getTitle())
                     .description(fakeStoreProductDto.getDescription())
                     .price(fakeStoreProductDto.getPrice())
                     .imageUrl(fakeStoreProductDto.getImage())
                     .rating(fakeStoreProductDto.getRating().toRating())
                     .build();
-            product.setId(fakeStoreProductDto.getId());
             productList.add(product);
 
         }

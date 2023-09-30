@@ -1,8 +1,7 @@
 package dev.manoj.productcatalog.services;
 
 
-import dev.manoj.productcatalog.dtos.FakeStoreProductDto;
-import dev.manoj.productcatalog.dtos.ProductDto;
+import dev.manoj.productcatalog.clients.fakeStoreApi.FakeStoreProductDto;
 import dev.manoj.productcatalog.exceptions.NotFoundException;
 import dev.manoj.productcatalog.models.Product;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +13,7 @@ public interface ProductService {
 
     ResponseEntity<Product> getSingleProduct(Long productId) throws NotFoundException;
 
-    FakeStoreProductDto addNewProduct(FakeStoreProductDto product);
+    Product addNewProduct(FakeStoreProductDto product);
 
     /*
     Product object has only those fields filled which need to be updated.
@@ -26,7 +25,7 @@ public interface ProductService {
     //
     // }
 
-    Product deleteProduct(Long productId);
+    Product deleteProduct(Long productId) throws NotFoundException;
 }
 
 // update product with id 123
