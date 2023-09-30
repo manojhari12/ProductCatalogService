@@ -8,6 +8,7 @@ import dev.manoj.productcatalog.models.Product;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.lang.Nullable;
@@ -40,6 +41,7 @@ public class FakeStoreProductServiceImpl implements ProductService {
         Category category = new Category();
         category.setName(fakeStoreProductDto.getCategory());
         return Product.builder()
+                .id(fakeStoreProductDto.getId())
                 .title(fakeStoreProductDto.getTitle())
                 .price(fakeStoreProductDto.getPrice())
                 .imageUrl(fakeStoreProductDto.getImage())
@@ -81,13 +83,14 @@ public class FakeStoreProductServiceImpl implements ProductService {
 
 
         @Override
-        public ResponseEntity<FakeStoreProductDto> getSingleProduct(Long productId) {
+        public ResponseEntity<Product> getSingleProduct(Long productId) {
             //Created a rest template instance to call fake store api
             RestTemplate restTemplate = restTemplateBuilder.build();
             //It will return the response entity of the product DTO from the API call
             ResponseEntity<FakeStoreProductDto> fakeStoreProductDto = restTemplate.getForEntity("https://fakestoreapi.com/products/{id}", FakeStoreProductDto.class, productId);
             System.out.println("Product DTO id : "+fakeStoreProductDto.getBody().getId());
-            return fakeStoreProductDto;
+            Product product = convertFakeStoreProductDtoToProduct(fakeStoreProductDto.getBody());
+            return new ResponseEntity<>(product,HttpStatus.OK);
         }
 
     @Override
@@ -135,8 +138,7 @@ public class FakeStoreProductServiceImpl implements ProductService {
     @Override
 
     public Product deleteProduct(Long productId) {
-        FakeStoreProductDto fakeStoreProductDto = getSingleProduct(productId).getBody();
-        Product product = convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
+        Product product = getSingleProduct(productId).getBody();
         product.setIsDeleted(true);
         return product;
     }

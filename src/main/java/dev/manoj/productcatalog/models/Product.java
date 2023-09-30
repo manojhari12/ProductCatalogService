@@ -1,10 +1,11 @@
 package dev.manoj.productcatalog.models;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product extends BaseModel {

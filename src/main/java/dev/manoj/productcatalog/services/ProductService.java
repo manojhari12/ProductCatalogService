@@ -3,6 +3,7 @@ package dev.manoj.productcatalog.services;
 
 import dev.manoj.productcatalog.dtos.FakeStoreProductDto;
 import dev.manoj.productcatalog.dtos.ProductDto;
+import dev.manoj.productcatalog.exceptions.NotFoundException;
 import dev.manoj.productcatalog.models.Product;
 import org.springframework.http.ResponseEntity;
 
@@ -11,7 +12,7 @@ import java.util.List;
 public interface ProductService {
     List<Product> getAllProducts();
 
-    ResponseEntity<FakeStoreProductDto> getSingleProduct(Long productId);
+    ResponseEntity<Product> getSingleProduct(Long productId) throws NotFoundException;
 
     FakeStoreProductDto addNewProduct(FakeStoreProductDto product);
 

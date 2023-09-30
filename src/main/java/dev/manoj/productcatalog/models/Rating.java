@@ -1,12 +1,14 @@
 package dev.manoj.productcatalog.models;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-@Builder
+
 @Getter
 @Setter
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Rating extends BaseModel{
     private Double rate;
     private Integer count;

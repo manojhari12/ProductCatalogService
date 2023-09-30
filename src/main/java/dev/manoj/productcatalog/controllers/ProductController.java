@@ -6,6 +6,7 @@ import dev.manoj.productcatalog.dtos.ProductDto;
 import dev.manoj.productcatalog.models.Category;
 import dev.manoj.productcatalog.models.Product;
 import dev.manoj.productcatalog.services.ProductService;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -35,16 +36,17 @@ public class ProductController {
         headers.add("auth-token","permission-granted");
         headers.add("auth-token","Temporary access");
 
-        FakeStoreProductDto productDto = productService.getSingleProduct(productId).getBody();
-        Product product = Product.builder()
+        Product product = productService.getSingleProduct(productId).getBody();
 
-                .title(productDto.getTitle())
-                .description(productDto.getDescription())
-                .price(productDto.getPrice())
-                .imageUrl(productDto.getImage())
-                .rating(productDto.getRating().toRating())
-                .build();
-        product.setId(productDto.getId());
+//        Product product = Product.builder()
+//
+//                .title(productDto.getTitle())
+//                .description(productDto.getDescription())
+//                .price(productDto.getPrice())
+//                .imageUrl(productDto.getImage())
+//                .rating(productDto.getRating().toRating())
+//                .build();
+//        product.setId(productDto.getId());
         ResponseEntity<Product> responseEntity = new ResponseEntity<>(product,headers, HttpStatus.OK);
 
         return responseEntity;
@@ -56,12 +58,13 @@ public class ProductController {
     public ResponseEntity<Product> addNewProduct(@RequestBody FakeStoreProductDto productDtoObj) {
         FakeStoreProductDto productDto = productService.addNewProduct(productDtoObj);
         Product postProduct = Product.builder()
+                .id(productDtoObj.getId())
                 .title(productDto.getTitle())
                 .description(productDto.getDescription())
                 .price(productDto.getPrice())
                 .imageUrl(productDto.getImage())
                 .build();
-        postProduct.setId(productDtoObj.getId());
+//        postProduct.setId(productDtoObj.getId());
         return new ResponseEntity<>(postProduct, HttpStatus.OK);
 
     }
