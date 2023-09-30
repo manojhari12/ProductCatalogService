@@ -115,9 +115,5 @@ public class ProductController {
                 .build();
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorResponseDto> notFoundExceptionResponse(){
-        ErrorResponseDto errorResponseDto = new ErrorResponseDto("Requested Item Not Found");
-        return new ResponseEntity<>(errorResponseDto, HttpStatus.NOT_FOUND);
-    }
+
 }
