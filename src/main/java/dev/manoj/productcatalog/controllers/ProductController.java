@@ -1,11 +1,16 @@
 package dev.manoj.productcatalog.controllers;
 
 
+import dev.manoj.productcatalog.dtos.ErrorResponseDto;
 import dev.manoj.productcatalog.dtos.FakeStoreProductDto;
 import dev.manoj.productcatalog.dtos.ProductDto;
+import dev.manoj.productcatalog.exceptions.NotFoundException;
 import dev.manoj.productcatalog.models.Category;
 import dev.manoj.productcatalog.models.Product;
 import dev.manoj.productcatalog.services.ProductService;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -16,14 +21,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
-//@AllArgsConstructor
+@AllArgsConstructor
 //@NoArgsConstructor
 
 public class ProductController {
     private ProductService productService;
-    public ProductController( ProductService productService) {
-        this.productService = productService;
-    }
+//    public ProductController(ProductService productService) {
+//        this.productService = productService;
+//    }
     @GetMapping()
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
@@ -31,21 +36,18 @@ public class ProductController {
 
     @GetMapping("/{productId}")
     public ResponseEntity<Product> getSingleProduct(@PathVariable Long productId) {
-        MultiValueMap<String, String> headers=new LinkedMultiValueMap<>();
-        headers.add("auth-token","permission-granted");
-        headers.add("auth-token","Temporary access");
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+        headers.add("auth-token", "permission-granted");
+        headers.add("auth-token", "Temporary access");
 
-        FakeStoreProductDto productDto = productService.getSingleProduct(productId).getBody();
-        Product product = Product.builder()
+        Product product;
+        try {
+            product = productService.getSingleProduct(productId).getBody();
+        } catch (NotFoundException notFoundException) {
+            throw new NotFoundException(notFoundException.getMessage());
+        }
 
-                .title(productDto.getTitle())
-                .description(productDto.getDescription())
-                .price(productDto.getPrice())
-                .imageUrl(productDto.getImage())
-                .rating(productDto.getRating().toRating())
-                .build();
-        product.setId(productDto.getId());
-        ResponseEntity<Product> responseEntity = new ResponseEntity<>(product,headers, HttpStatus.OK);
+        ResponseEntity<Product> responseEntity = new ResponseEntity<>(product, headers, HttpStatus.OK);
 
         return responseEntity;
 //        return productService.getSingleProduct(productId).getBody();
@@ -56,12 +58,13 @@ public class ProductController {
     public ResponseEntity<Product> addNewProduct(@RequestBody FakeStoreProductDto productDtoObj) {
         FakeStoreProductDto productDto = productService.addNewProduct(productDtoObj);
         Product postProduct = Product.builder()
+                .id(productDtoObj.getId())
                 .title(productDto.getTitle())
                 .description(productDto.getDescription())
                 .price(productDto.getPrice())
                 .imageUrl(productDto.getImage())
                 .build();
-        postProduct.setId(productDtoObj.getId());
+//        postProduct.setId(productDtoObj.getId());
         return new ResponseEntity<>(postProduct, HttpStatus.OK);
 
     }
@@ -111,4 +114,6 @@ public class ProductController {
                 .category(product.getCategory().getName())
                 .build();
     }
+
+
 }
