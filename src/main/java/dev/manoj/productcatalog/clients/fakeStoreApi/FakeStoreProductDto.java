@@ -1,5 +1,6 @@
-package dev.manoj.productcatalog.dtos;
+package dev.manoj.productcatalog.clients.fakeStoreApi;
 
+import dev.manoj.productcatalog.dtos.RatingDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

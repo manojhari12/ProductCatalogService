@@ -1,16 +1,13 @@
 package dev.manoj.productcatalog.controllers;
 
 
-import dev.manoj.productcatalog.dtos.ErrorResponseDto;
-import dev.manoj.productcatalog.dtos.FakeStoreProductDto;
+import dev.manoj.productcatalog.clients.fakeStoreApi.FakeStoreProductDto;
 import dev.manoj.productcatalog.dtos.ProductDto;
 import dev.manoj.productcatalog.exceptions.NotFoundException;
 import dev.manoj.productcatalog.models.Category;
 import dev.manoj.productcatalog.models.Product;
 import dev.manoj.productcatalog.services.ProductService;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -56,16 +53,8 @@ public class ProductController {
 
     @PostMapping()
     public ResponseEntity<Product> addNewProduct(@RequestBody FakeStoreProductDto productDtoObj) {
-        FakeStoreProductDto productDto = productService.addNewProduct(productDtoObj);
-        Product postProduct = Product.builder()
-                .id(productDtoObj.getId())
-                .title(productDto.getTitle())
-                .description(productDto.getDescription())
-                .price(productDto.getPrice())
-                .imageUrl(productDto.getImage())
-                .build();
-//        postProduct.setId(productDtoObj.getId());
-        return new ResponseEntity<>(postProduct, HttpStatus.OK);
+        Product product = productService.addNewProduct(productDtoObj);
+        return new ResponseEntity<>(product, HttpStatus.OK);
 
     }
 
