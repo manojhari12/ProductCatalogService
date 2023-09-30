@@ -11,6 +11,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+//Product categories
 public class Category extends BaseModel {
     private String name;
     private String description;
