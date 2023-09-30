@@ -3,6 +3,7 @@ package dev.manoj.productcatalog.services;
 
 import dev.manoj.productcatalog.dtos.FakeStoreProductDto;
 import dev.manoj.productcatalog.dtos.ProductDto;
+import dev.manoj.productcatalog.exceptions.NotFoundException;
 import dev.manoj.productcatalog.models.Category;
 import dev.manoj.productcatalog.models.Product;
 import lombok.AllArgsConstructor;
@@ -88,7 +89,9 @@ public class FakeStoreProductServiceImpl implements ProductService {
             RestTemplate restTemplate = restTemplateBuilder.build();
             //It will return the response entity of the product DTO from the API call
             ResponseEntity<FakeStoreProductDto> fakeStoreProductDto = restTemplate.getForEntity("https://fakestoreapi.com/products/{id}", FakeStoreProductDto.class, productId);
-            System.out.println("Product DTO id : "+fakeStoreProductDto.getBody().getId());
+            if(fakeStoreProductDto.getBody()==null){
+                throw new NotFoundException("Product not found with id : "+productId);
+            }
             Product product = convertFakeStoreProductDtoToProduct(fakeStoreProductDto.getBody());
             return new ResponseEntity<>(product,HttpStatus.OK);
         }
