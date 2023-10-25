@@ -1,15 +1,13 @@
 package dev.manoj.productcatalog.InheritanceExample.JoinedTable;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity(name = "JOINED_USER")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User {
