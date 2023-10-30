@@ -123,6 +123,11 @@ public class FakeStoreProductServiceImpl implements ProductService {
         return product;
     }
 
+    @Override
+    public List<Product> getProductsInCategory(String categoryType) {
+        return null;
+    }
+
     //RequestForEntity methods
 
 }

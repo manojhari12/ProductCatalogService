@@ -37,11 +37,11 @@ public class FakeStoreCategoryServiceImpl implements CategoryService {
 
 
 
-    @Override
-    public List<Product> getProductsInCategory(String categoryType) {
-        ResponseEntity<FakeStoreProductDto[]> fakeStoreProductDtoResponseEntity = fakeStoreClient.getProductsInCategory(categoryType);
-        return getProductsFromProductList(fakeStoreProductDtoResponseEntity);
-    }
+//    @Override
+//    public List<Product> getProductsInCategory(String categoryType) {
+//        ResponseEntity<FakeStoreProductDto[]> fakeStoreProductDtoResponseEntity = fakeStoreClient.getProductsInCategory(categoryType);
+//        return getProductsFromProductList(fakeStoreProductDtoResponseEntity);
+//    }
 
 
     private List<Product> getProductsFromProductList(ResponseEntity<FakeStoreProductDto[]> productFromCategory) {

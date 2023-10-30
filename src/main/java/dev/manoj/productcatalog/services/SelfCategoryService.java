@@ -15,16 +15,16 @@ import java.util.List;
 public class SelfCategoryService implements CategoryService{
 
     private CategoryRepository categoryRepository;
-    private SelfProductService productService;
+//    private SelfProductService productService;
     @Override
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
 
-    @Override
-    public List<Product> getProductsInCategory(String categoryType) {
-        return productService.findAllByCategory_Name(categoryType);
-    }
+//    @Override
+//    public List<Product> getProductsInCategory(String categoryType) {
+//        return productService.findAllByCategory_Name(categoryType);
+//    }
 
     public Category saveCategory(Category category){
         return  categoryRepository.save(category);
