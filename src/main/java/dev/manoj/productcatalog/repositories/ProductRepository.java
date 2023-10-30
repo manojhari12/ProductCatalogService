@@ -2,6 +2,7 @@ package dev.manoj.productcatalog.repositories;
 
 import dev.manoj.productcatalog.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +14,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Product findProductById(Long productId);
 
     //Find Single product
+    @Query(value = "select * from product where id = :productId", nativeQuery = true)
     Optional<Product> findById(Long productId);
+
+    @Query(value = "select title from product where id = :productId", nativeQuery = true)
+    String fetchOnlyProductName(Long productId);
 
     Product save(Product product);
 

@@ -157,4 +157,13 @@ class ProductCatalogApplicationTests {
         categoryRepository.deleteById(7L);
     }
 
+    @Test
+    void testQueryAnnotation(){
+        Product product = productRepository.findProductById(19L);
+        String productName = productRepository.fetchOnlyProductName(20L);
+        System.out.println("Fetched product : "+productName);
+
+
+    }
+
 }

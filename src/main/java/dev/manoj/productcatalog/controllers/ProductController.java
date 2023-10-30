@@ -7,6 +7,7 @@ import dev.manoj.productcatalog.exceptions.NotFoundException;
 import dev.manoj.productcatalog.models.Category;
 import dev.manoj.productcatalog.models.Product;
 import dev.manoj.productcatalog.services.ProductService;
+import dev.manoj.productcatalog.services.SelfProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ import java.util.List;
 //@NoArgsConstructor
 
 public class ProductController {
-    private ProductService productService;
+    private SelfProductService productService;
 //    public ProductController(ProductService productService) {
 //        this.productService = productService;
 //    }
@@ -52,7 +53,7 @@ public class ProductController {
 
 
     @PostMapping()
-    public ResponseEntity<Product> addNewProduct(@RequestBody FakeStoreProductDto productDtoObj) {
+    public ResponseEntity<Product> addNewProduct(@RequestBody ProductDto productDtoObj) {
         Product product = productService.addNewProduct(productDtoObj);
         return new ResponseEntity<>(product, HttpStatus.OK);
 
@@ -84,7 +85,7 @@ public class ProductController {
 
     public Product convertProductDtoToProduct(ProductDto productDto){
         Category category=new Category();
-        category.setName(productDto.getCategory());
+
         return Product.builder()
                 .title(productDto.getTitle())
                 .price(productDto.getPrice())
@@ -100,7 +101,7 @@ public class ProductController {
                 .description(product.getDescription())
                 .price(product.getPrice())
                 .image(product.getImageUrl())
-                .category(product.getCategory().getName())
+
                 .build();
     }
 

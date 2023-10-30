@@ -27,6 +27,8 @@ public interface ProductService {
     // }
 
     Product deleteProduct(Long productId) throws NotFoundException;
+
+    List<Product> getProductsInCategory(String categoryType);
 }
 
 // update product with id 123

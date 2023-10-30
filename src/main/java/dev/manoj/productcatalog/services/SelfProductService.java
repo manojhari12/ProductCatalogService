@@ -90,7 +90,10 @@ public class SelfProductService implements ProductService{
         return productRepository.deleteProductById(productId);
     }
 
-    public List<Product> findAllByCategory_Name(String categoryName){
-        return productRepository.findByCategory_Name(categoryName);
+    @Override
+    public List<Product> getProductsInCategory(String categoryType) {
+        return productRepository.findByCategory_Name(categoryType);
     }
+
+
 }
