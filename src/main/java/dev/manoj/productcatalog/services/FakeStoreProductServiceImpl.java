@@ -3,6 +3,7 @@ package dev.manoj.productcatalog.services;
 
 import dev.manoj.productcatalog.clients.fakeStoreApi.FakeStoreClient;
 import dev.manoj.productcatalog.clients.fakeStoreApi.FakeStoreProductDto;
+import dev.manoj.productcatalog.dtos.ProductDto;
 import dev.manoj.productcatalog.exceptions.NotFoundException;
 import dev.manoj.productcatalog.models.Category;
 import dev.manoj.productcatalog.models.Product;
@@ -88,7 +89,13 @@ public class FakeStoreProductServiceImpl implements ProductService {
         }
 
     @Override
-    public Product addNewProduct(FakeStoreProductDto fakeStoreProductDto) {
+    public Product addNewProduct(ProductDto productDto) {
+            FakeStoreProductDto fakeStoreProductDto = FakeStoreProductDto.builder()
+                    .id(productDto.getId())
+                    .title(productDto.getTitle())
+                    .description(productDto.getDescription())
+                    .image(productDto.getImage())
+                    .build();
             ResponseEntity<FakeStoreProductDto> fakeStoreProductDtoResponseEntity = fakeStoreClient.addNewProduct(fakeStoreProductDto);
             Product product = convertFakeStoreProductDtoToProduct(fakeStoreProductDtoResponseEntity.getBody());
             return product;

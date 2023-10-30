@@ -17,7 +17,7 @@ public class ProductDto {
     private String description;
     private double price;
     private String image;
-    private String category;
+    private Long categoryId;
     private RatingDTO rating;
 //    private String spec;
     private Boolean isDeleted;
