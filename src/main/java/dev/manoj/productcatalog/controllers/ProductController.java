@@ -9,6 +9,7 @@ import dev.manoj.productcatalog.models.Product;
 import dev.manoj.productcatalog.services.ProductService;
 import dev.manoj.productcatalog.services.SelfProductService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -23,7 +24,9 @@ import java.util.List;
 //@NoArgsConstructor
 
 public class ProductController {
-    private SelfProductService productService;
+
+
+    private ProductService productService;
 //    public ProductController(ProductService productService) {
 //        this.productService = productService;
 //    }

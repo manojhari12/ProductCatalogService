@@ -8,6 +8,8 @@ import dev.manoj.productcatalog.models.Product;
 import dev.manoj.productcatalog.repositories.CategoryRepository;
 import dev.manoj.productcatalog.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,8 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
+@Primary
+@Qualifier("SelfProductService")
 public class SelfProductService implements ProductService{
 
     private ProductRepository productRepository;
@@ -29,8 +33,12 @@ public class SelfProductService implements ProductService{
     @Override
     public ResponseEntity<Product> getSingleProduct(Long productId) throws NotFoundException {
         Optional<Product> optionalProduct =  productRepository.findById(productId);
-        if(optionalProduct.isPresent())
+
+        System.out.println("Optional product -> "+optionalProduct);
+        if(optionalProduct.isPresent()) {
+
             return new ResponseEntity<>(optionalProduct.get(), HttpStatus.OK);
+        }
         throw new NotFoundException("Product not found!!");
     }
 
