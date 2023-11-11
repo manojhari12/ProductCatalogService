@@ -21,6 +21,7 @@ public class SelfCategoryService implements CategoryService{
         return categoryRepository.findAll();
     }
 
+
 //    @Override
 //    public List<Product> getProductsInCategory(String categoryType) {
 //        return productService.findAllByCategory_Name(categoryType);

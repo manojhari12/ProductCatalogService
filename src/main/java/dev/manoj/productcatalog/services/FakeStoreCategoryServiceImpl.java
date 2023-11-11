@@ -35,6 +35,11 @@ public class FakeStoreCategoryServiceImpl implements CategoryService {
 
     }
 
+    @Override
+    public Category saveCategory(Category category) {
+        return null;
+    }
+
 
 
 //    @Override
