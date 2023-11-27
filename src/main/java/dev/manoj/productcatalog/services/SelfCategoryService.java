@@ -6,11 +6,13 @@ import dev.manoj.productcatalog.models.Product;
 import dev.manoj.productcatalog.repositories.CategoryRepository;
 import dev.manoj.productcatalog.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Primary
 @AllArgsConstructor
 public class SelfCategoryService implements CategoryService{
 

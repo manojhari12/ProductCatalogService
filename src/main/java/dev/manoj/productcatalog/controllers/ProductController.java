@@ -1,6 +1,11 @@
 package dev.manoj.productcatalog.controllers;
 
 
+import dev.manoj.productcatalog.clients.authenticationClient.AuthenticationClient;
+import dev.manoj.productcatalog.clients.authenticationClient.dtos.Role;
+import dev.manoj.productcatalog.clients.authenticationClient.dtos.SessionStatus;
+import dev.manoj.productcatalog.clients.authenticationClient.dtos.ValidateTokenRequestDTO;
+import dev.manoj.productcatalog.clients.authenticationClient.dtos.ValidateTokenResponseDTO;
 import dev.manoj.productcatalog.clients.fakeStoreApi.FakeStoreProductDto;
 import dev.manoj.productcatalog.dtos.ProductDto;
 import dev.manoj.productcatalog.exceptions.NotFoundException;
@@ -9,9 +14,12 @@ import dev.manoj.productcatalog.models.Product;
 import dev.manoj.productcatalog.services.ProductService;
 import dev.manoj.productcatalog.services.SelfProductService;
 import lombok.AllArgsConstructor;
+import org.apache.naming.EjbRef;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
@@ -27,12 +35,39 @@ public class ProductController {
 
 
     private ProductService productService;
+    private AuthenticationClient authenticationClient;
 //    public ProductController(ProductService productService) {
 //        this.productService = productService;
 //    }
+
+    //Only admins should access this API. If not return status code 403: Not authorized
     @GetMapping()
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
+    public ResponseEntity<List<Product>> getAllProducts(@Nullable @RequestHeader("AUTH_TOKEN") String token,
+                                                        @Nullable @RequestHeader("USER_ID") Long userId) {
+        //Check if token exists
+        if(token==null || userId==null)
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        ValidateTokenResponseDTO response = authenticationClient.validate(token, userId);
+
+        //Check if token is valid
+        if(response.getSessionStatus().equals(SessionStatus.INVALID))
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        //Check if the user is admin
+        boolean isUserAdmin = false;
+        for(Role role : response.getUserDTO().getRoles()){
+            if(role.getRoleName().equals("ADMIN"))
+                isUserAdmin=true;
+        }
+        if(!isUserAdmin)
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        List<Product> productList = productService.getAllProducts();
+        return new ResponseEntity<>(
+                productList,
+                HttpStatus.OK
+        );
     }
 
     @GetMapping("/{productId}")
