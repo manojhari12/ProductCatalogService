@@ -44,24 +44,7 @@ public class ProductController {
     @GetMapping()
     public ResponseEntity<List<Product>> getAllProducts(@Nullable @RequestHeader("AUTH_TOKEN") String token,
                                                         @Nullable @RequestHeader("USER_ID") Long userId) {
-        //Check if token exists
-        if(token==null || userId==null)
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        ValidateTokenResponseDTO response = authenticationClient.validate(token, userId);
-
-        //Check if token is valid
-        if(response.getSessionStatus().equals(SessionStatus.INVALID))
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-
-        //Check if the user is admin
-        boolean isUserAdmin = false;
-        for(Role role : response.getUserDTO().getRoles()){
-            if(role.getRoleName().equals("ADMIN"))
-                isUserAdmin=true;
-        }
-        if(!isUserAdmin)
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         List<Product> productList = productService.getAllProducts();
         return new ResponseEntity<>(
