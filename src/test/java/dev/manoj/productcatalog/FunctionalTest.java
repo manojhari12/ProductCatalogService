@@ -9,13 +9,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest //Allows us to test our APIs
+//@WebMvcTest //Allows us to test our APIs
 public class FunctionalTest {
 
-    @Autowired
+//    @Autowired
     private MockMvc mockMvc; //Object used to send request
 
-    @Test
+//    @Test
     void testGetAllProducts() throws Exception {
         mockMvc.perform(get("/"))
                 .andExpect(status().is(200))

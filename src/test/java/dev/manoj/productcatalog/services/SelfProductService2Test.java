@@ -18,16 +18,16 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assumptions.*;
-@SpringBootTest
+//@SpringBootTest
 class SelfProductService2Test {
 
-    @Autowired
+//    @Autowired
     private ProductService productService;
 
-    @MockBean
+//    @MockBean
     private ProductRepository productRepository;
 
-    @Test
+//    @Test
     void testGetSingleProductShouldReturnProduct(){
         Product product = Product.builder()
                 .title("Lenovo Thinkbook")

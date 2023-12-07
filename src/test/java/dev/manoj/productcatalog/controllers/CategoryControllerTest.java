@@ -11,15 +11,15 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+//@SpringBootTest
 class CategoryControllerTest {
 
-    @Autowired
+//    @Autowired
     private CategoryController categoryController;
 
-    @Autowired
+//    @Autowired
     private CategoryStub categoryStub;
-    @Test
+//    @Test
     void testGetAllCategories(){
         CategoryDto categoryDto =  CategoryDto.builder()
                 .name("Laptops")

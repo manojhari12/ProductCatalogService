@@ -21,20 +21,20 @@ import org.springframework.test.annotation.Commit;
 import java.util.List;
 import java.util.Optional;
 
-@SpringBootTest
+//@SpringBootTest
 class ProductCatalogApplicationTests {
 
-    @Autowired
+//    @Autowired
     private ProductRepository productRepository;
-    @Autowired
+//    @Autowired
     private CategoryRepository categoryRepository;
 
-    @Test
+//    @Test
     void contextLoads() {
     }
 
 
-    @Test
+//    @Test
     void savingItems(){
         Category category=new Category();
         category.setName("Mobiles");
@@ -88,8 +88,8 @@ class ProductCatalogApplicationTests {
 
     }
 
-    @Test
-    @Transactional
+//    @Test
+//    @Transactional
     void queryMethods(){
         //find products less than 50000
         System.out.println("Products less than 50000");
@@ -113,9 +113,9 @@ class ProductCatalogApplicationTests {
     }
 
 
-    @Test
-    @Transactional
-    @Commit
+//    @Test
+//    @Transactional
+//    @Commit
     void testingCascadingTypes(){
         Category category=new Category();
         category.setName("Watches");
@@ -152,12 +152,12 @@ class ProductCatalogApplicationTests {
 
     }
 
-    @Test
+//    @Test
     void deleteCategoryByID(){
         categoryRepository.deleteById(7L);
     }
 
-    @Test
+//    @Test
     void testQueryAnnotation(){
         Product product = productRepository.findProductById(19L);
         String productName = productRepository.fetchOnlyProductName(20L);

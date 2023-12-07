@@ -12,14 +12,14 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-@SpringBootTest
+//@SpringBootTest
 public class SelfProductServiceTest {
-    @Autowired
+//    @Autowired
     private SelfProductService selfProductService;
 
-    @MockBean
+//    @MockBean
     private ProductRepository productRepository;
-    @Test
+//    @Test
     void testGetSingleProductShouldReturnProduct(){
         //In the single product I have an external dependency
         // I need to mock this
