@@ -32,7 +32,7 @@ public class SelfCategoryService implements CategoryService{
     public Category saveCategory(Category category){
         return  categoryRepository.save(category);
     }
-    public Category getCategoryById(Long categoryId){
+    public Category     getCategoryById(Long categoryId){
         Category category = categoryRepository.findCategoryById(categoryId);
         if(category==null) throw new NotFoundException("Category not found.");
         return category;
