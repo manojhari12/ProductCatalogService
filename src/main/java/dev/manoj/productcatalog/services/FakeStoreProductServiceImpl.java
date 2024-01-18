@@ -10,6 +10,8 @@ import dev.manoj.productcatalog.models.Product;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +36,7 @@ public class FakeStoreProductServiceImpl implements ProductService {
     //and using rest template we can do a http call to 3rd party apis
 
     private FakeStoreClient fakeStoreClient;
-
+    private RedisTemplate<Long, Object> redisTemplate;
 
 
     public Product convertFakeStoreProductDtoToProduct(FakeStoreProductDto fakeStoreProductDto){
@@ -59,8 +61,15 @@ public class FakeStoreProductServiceImpl implements ProductService {
                 .category(product.getCategory().getName())
                 .build();
     }
+
+    @Override
+    public Page<Product> getProducts(String query,int offset, int noOfResults) {
+        return null;
+    }
+
     @Override
     public  List<Product> getAllProducts() {
+
         List<FakeStoreProductDto> fakeStoreProductList = fakeStoreClient.getAllProducts(); //Client Call
         List<Product> productList=new ArrayList<>();
         for(FakeStoreProductDto fakeStoreProductDto : fakeStoreProductList){
@@ -78,15 +87,18 @@ public class FakeStoreProductServiceImpl implements ProductService {
     }
 
 
-        @Override
-        public ResponseEntity<Product> getSingleProduct(Long productId) {
+        @Override public ResponseEntity<Product> getSingleProduct(Long productId) {
 
-            //It will return the response entity of the product DTO from the API call
-            ResponseEntity<FakeStoreProductDto> fakeStoreProductDto = fakeStoreClient.getSingleProduct(productId);
-            if(fakeStoreProductDto.getBody()==null){
+//            FakeStoreProductDto fakeStoreProductDto = (FakeStoreProductDto) redisTemplate.opsForHash().get(productId, "PRODUCTS");
+//            //It will return the response entity of the product DTO from the API call
+//            if(fakeStoreProductDto!=null)
+//                return new ResponseEntity<>(convertFakeStoreProductDtoToProduct(fakeStoreProductDto), HttpStatus.OK);
+            ResponseEntity<FakeStoreProductDto> response = fakeStoreClient.getSingleProduct(productId);
+            if(response.getBody()==null){
                 throw new NotFoundException("Product not found with id : "+productId);
             }
-            Product product = convertFakeStoreProductDtoToProduct(fakeStoreProductDto.getBody());
+            Product product = convertFakeStoreProductDtoToProduct(response.getBody());
+//            redisTemplate.opsForHash().put(productId,"PRODUCTS",response.getBody());
             return new ResponseEntity<>(product,HttpStatus.OK);
         }
 

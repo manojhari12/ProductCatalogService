@@ -1,6 +1,8 @@
 package dev.manoj.productcatalog.repositories;
 
 import dev.manoj.productcatalog.models.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -12,6 +14,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAll();
 
     Product findProductById(Long productId);
+
+    Page<Product> findProductByTitleContainingOrderByPriceAsc(String query,Pageable pageable);
 
     //Find Single product
     @Query(value = "select * from product where id = :productId", nativeQuery = true)

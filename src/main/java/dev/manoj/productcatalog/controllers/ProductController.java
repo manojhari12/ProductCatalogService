@@ -7,6 +7,7 @@ import dev.manoj.productcatalog.clients.authenticationClient.dtos.SessionStatus;
 import dev.manoj.productcatalog.clients.authenticationClient.dtos.ValidateTokenRequestDTO;
 import dev.manoj.productcatalog.clients.authenticationClient.dtos.ValidateTokenResponseDTO;
 import dev.manoj.productcatalog.clients.fakeStoreApi.FakeStoreProductDto;
+import dev.manoj.productcatalog.dtos.GetProductRequestDto;
 import dev.manoj.productcatalog.dtos.ProductDto;
 import dev.manoj.productcatalog.exceptions.NotFoundException;
 import dev.manoj.productcatalog.models.Category;
@@ -17,6 +18,7 @@ import lombok.AllArgsConstructor;
 import org.apache.naming.EjbRef;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -28,18 +30,29 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
-@AllArgsConstructor
+
 //@NoArgsConstructor
 
 public class ProductController {
-
-
     private ProductService productService;
     private AuthenticationClient authenticationClient;
+    ProductController(@Qualifier("SelfProductService") ProductService productService, AuthenticationClient authenticationClient){
+        this.productService=productService;
+        this.authenticationClient=authenticationClient;
+    }
+
 //    public ProductController(ProductService productService) {
 //        this.productService = productService;
 //    }
 
+    @GetMapping("/paginated")
+    public Page<Product> getProducts(@RequestBody GetProductRequestDto requestDto){
+        return productService.getProducts(
+                requestDto.getQuery(),
+                requestDto.getOffset(),
+                requestDto.getNoOfResults()
+        );
+    }
     //Only admins should access this API. If not return status code 403: Not authorized
     @GetMapping()
     public ResponseEntity<List<Product>> getAllProducts(@Nullable @RequestHeader("AUTH_TOKEN") String token,

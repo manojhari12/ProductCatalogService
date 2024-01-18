@@ -13,6 +13,7 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -22,6 +23,13 @@ public class StubProductService implements ProductService {
 
     @Mock
     private SelfCategoryService categoryService;
+
+
+    @Override
+    public Page<Product> getProducts(String query, int offset, int noOfResults) {
+        return null;
+    }
+
     @Override
     public List<Product> getAllProducts() {
         return null;

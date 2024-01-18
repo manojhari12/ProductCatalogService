@@ -2,14 +2,19 @@ package dev.manoj.productcatalog.services;
 
 
 import dev.manoj.productcatalog.clients.fakeStoreApi.FakeStoreProductDto;
+import dev.manoj.productcatalog.dtos.GetProductRequestDto;
 import dev.manoj.productcatalog.dtos.ProductDto;
 import dev.manoj.productcatalog.exceptions.NotFoundException;
 import dev.manoj.productcatalog.models.Product;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface ProductService {
+
+    Page<Product> getProducts(String query, int offset, int noOfResults);
+
     List<Product> getAllProducts();
 
     ResponseEntity<Product> getSingleProduct(Long productId) throws NotFoundException;

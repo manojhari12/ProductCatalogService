@@ -5,9 +5,11 @@ import dev.manoj.productcatalog.models.Rating;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
-public class RatingDTO {
+public class RatingDTO implements Serializable   {
     private Double rate;
     private Integer count;
 

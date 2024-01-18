@@ -1,5 +1,6 @@
 package dev.manoj.productcatalog.models;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -22,7 +23,8 @@ public class Product extends BaseModel {
     private String imageUrl;
     @OneToOne
     private Rating rating;
-    private Boolean isDeleted=false;
+    @Column(nullable = true)
+    private Boolean isDeleted;
 
 
 }

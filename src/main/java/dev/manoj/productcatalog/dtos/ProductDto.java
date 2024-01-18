@@ -20,6 +20,7 @@ public class ProductDto {
     private Long categoryId;
     private RatingDTO rating;
 //    private String spec;
+    @Nullable
     private Boolean isDeleted;
 
 }

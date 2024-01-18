@@ -1,6 +1,7 @@
 package dev.manoj.productcatalog.services;
 
 import dev.manoj.productcatalog.clients.fakeStoreApi.FakeStoreProductDto;
+import dev.manoj.productcatalog.dtos.GetProductRequestDto;
 import dev.manoj.productcatalog.dtos.ProductDto;
 import dev.manoj.productcatalog.exceptions.NotFoundException;
 import dev.manoj.productcatalog.models.Category;
@@ -10,6 +11,8 @@ import dev.manoj.productcatalog.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,16 @@ public class SelfProductService implements ProductService{
 
     private ProductRepository productRepository;
     private SelfCategoryService categoryService;
+
+
+    @Override
+    public Page<Product> getProducts(String query, int offset, int noOfResults) {
+        return productRepository.findProductByTitleContainingOrderByPriceAsc(
+                query,
+                PageRequest.of(offset/noOfResults,noOfResults)
+        );
+    }
+
     @Override
     public List<Product> getAllProducts() {
         return productRepository.findAll();
@@ -49,9 +62,10 @@ public class SelfProductService implements ProductService{
                 .price(productDto.getPrice())
                 .description(productDto.getDescription())
                 .imageUrl(productDto.getImage())
+                .isDeleted(productDto.getIsDeleted())
                 .build();
         Product savedProduct = productRepository.save(product);
-        Category category = categoryService.getCategoryById(productDto.getCategoryId());
+//        Category category = categoryService.getCategoryById(productDto.getCategoryId());
 
 
         return productRepository.save(savedProduct);
