@@ -1,6 +1,7 @@
 package dev.manoj.productcatalog.controllers;
 
 import dev.manoj.productcatalog.dtos.ProductDto;
+import dev.manoj.productcatalog.dtos.UserDTO;
 import dev.manoj.productcatalog.exceptions.NotFoundException;
 import dev.manoj.productcatalog.models.Category;
 import dev.manoj.productcatalog.models.Product;
@@ -73,6 +74,11 @@ public class StubProductService implements ProductService {
 
     @Override
     public List<Product> getProductsInCategory(String categoryType) {
+        return null;
+    }
+
+    @Override
+    public UserDTO getUserDetails() {
         return null;
     }
 }

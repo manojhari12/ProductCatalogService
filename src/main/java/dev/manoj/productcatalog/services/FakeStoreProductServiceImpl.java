@@ -4,12 +4,13 @@ package dev.manoj.productcatalog.services;
 import dev.manoj.productcatalog.clients.fakeStoreApi.FakeStoreClient;
 import dev.manoj.productcatalog.clients.fakeStoreApi.FakeStoreProductDto;
 import dev.manoj.productcatalog.dtos.ProductDto;
+import dev.manoj.productcatalog.dtos.UserDTO;
 import dev.manoj.productcatalog.exceptions.NotFoundException;
 import dev.manoj.productcatalog.models.Category;
 import dev.manoj.productcatalog.models.Product;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
@@ -139,6 +140,11 @@ public class FakeStoreProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getProductsInCategory(String categoryType) {
+        return null;
+    }
+
+    @Override
+    public UserDTO getUserDetails() {
         return null;
     }
 

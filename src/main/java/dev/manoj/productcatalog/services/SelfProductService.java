@@ -1,21 +1,20 @@
 package dev.manoj.productcatalog.services;
 
-import dev.manoj.productcatalog.clients.fakeStoreApi.FakeStoreProductDto;
-import dev.manoj.productcatalog.dtos.GetProductRequestDto;
+import dev.manoj.productcatalog.dtos.UserDTO;
 import dev.manoj.productcatalog.dtos.ProductDto;
 import dev.manoj.productcatalog.exceptions.NotFoundException;
-import dev.manoj.productcatalog.models.Category;
 import dev.manoj.productcatalog.models.Product;
-import dev.manoj.productcatalog.repositories.CategoryRepository;
 import dev.manoj.productcatalog.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,13 +27,20 @@ public class SelfProductService implements ProductService{
 
     private ProductRepository productRepository;
     private SelfCategoryService categoryService;
+    private RestTemplate restTemplate;
+
 
 
     @Override
     public Page<Product> getProducts(String query, int offset, int noOfResults) {
-        return productRepository.findProductByTitleContainingOrderByPriceAsc(
+        //Sorting happens on Database and then we fetch the data
+        return productRepository.findProductByTitleContaining(
                 query,
-                PageRequest.of(offset/noOfResults,noOfResults)
+                PageRequest.of(offset/noOfResults,
+                        noOfResults,
+                        Sort.by("title")
+
+                )
         );
     }
 
@@ -115,6 +121,15 @@ public class SelfProductService implements ProductService{
     @Override
     public List<Product> getProductsInCategory(String categoryType) {
         return productRepository.findByCategory_Name(categoryType);
+    }
+
+    public UserDTO getUserDetails(){
+
+        ResponseEntity<UserDTO> userDetails = restTemplate.getForEntity(
+                "http://userservice/users/1",
+                UserDTO.class
+        );
+        return userDetails.getBody();
     }
 
 

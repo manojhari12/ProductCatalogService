@@ -5,7 +5,7 @@ import dev.manoj.productcatalog.clients.fakeStoreApi.FakeStoreProductDto;
 import dev.manoj.productcatalog.models.Category;
 import dev.manoj.productcatalog.models.Product;
 import lombok.AllArgsConstructor;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+//import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

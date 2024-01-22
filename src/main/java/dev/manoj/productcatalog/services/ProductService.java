@@ -4,6 +4,7 @@ package dev.manoj.productcatalog.services;
 import dev.manoj.productcatalog.clients.fakeStoreApi.FakeStoreProductDto;
 import dev.manoj.productcatalog.dtos.GetProductRequestDto;
 import dev.manoj.productcatalog.dtos.ProductDto;
+import dev.manoj.productcatalog.dtos.UserDTO;
 import dev.manoj.productcatalog.exceptions.NotFoundException;
 import dev.manoj.productcatalog.models.Product;
 import org.springframework.data.domain.Page;
@@ -34,6 +35,7 @@ public interface ProductService {
     Product deleteProduct(Long productId) throws NotFoundException;
 
     List<Product> getProductsInCategory(String categoryType);
+     UserDTO getUserDetails();
 }
 
 // update product with id 123

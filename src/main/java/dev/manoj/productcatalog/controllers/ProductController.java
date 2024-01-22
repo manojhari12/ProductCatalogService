@@ -9,6 +9,7 @@ import dev.manoj.productcatalog.clients.authenticationClient.dtos.ValidateTokenR
 import dev.manoj.productcatalog.clients.fakeStoreApi.FakeStoreProductDto;
 import dev.manoj.productcatalog.dtos.GetProductRequestDto;
 import dev.manoj.productcatalog.dtos.ProductDto;
+import dev.manoj.productcatalog.dtos.UserDTO;
 import dev.manoj.productcatalog.exceptions.NotFoundException;
 import dev.manoj.productcatalog.models.Category;
 import dev.manoj.productcatalog.models.Product;
@@ -138,6 +139,13 @@ public class ProductController {
 
                 .build();
     }
+
+    @GetMapping("/user")
+    public UserDTO getUserDetails(){
+        return productService.getUserDetails();
+    }
+
+
 
 
 }

@@ -15,7 +15,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Product findProductById(Long productId);
 
-    Page<Product> findProductByTitleContainingOrderByPriceAsc(String query,Pageable pageable);
+    Page<Product> findProductByTitleContaining(String query,Pageable pageable);
 
     //Find Single product
     @Query(value = "select * from product where id = :productId", nativeQuery = true)

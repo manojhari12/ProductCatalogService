@@ -6,7 +6,7 @@ import dev.manoj.productcatalog.models.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+//import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -25,9 +25,9 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class FakeStoreClient {
-    private RestTemplateBuilder restTemplateBuilder;
+//    private RestTemplateBuilder restTemplateBuilder;
     public  List<FakeStoreProductDto> getAllProducts(){
-        RestTemplate restTemplate = restTemplateBuilder.build();
+        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<FakeStoreProductDto[]> FakeStoreProductsArray = restTemplate.getForEntity(
                 "https://fakestoreapi.com/products",
                 FakeStoreProductDto[].class
@@ -36,13 +36,13 @@ public class FakeStoreClient {
     };
 
     public ResponseEntity<FakeStoreProductDto> getSingleProduct(Long productId) throws NotFoundException{
-        RestTemplate restTemplate = restTemplateBuilder.build();
+        RestTemplate restTemplate = new RestTemplate();
         //It will return the response entity of the product DTO from the API call
         return restTemplate.getForEntity("https://fakestoreapi.com/products/{id}", FakeStoreProductDto.class, productId);
     }
 
     public ResponseEntity<FakeStoreProductDto>  addNewProduct(FakeStoreProductDto fakeStoreProductDto){
-        RestTemplate restTemplate = restTemplateBuilder.build();
+        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<FakeStoreProductDto> fakeStoreProductDtoResponseEntity = restTemplate.postForEntity("https://fakestoreapi.com/products",
                 fakeStoreProductDto, //Request Body
                 FakeStoreProductDto.class //Return type class
@@ -55,7 +55,7 @@ public class FakeStoreClient {
     Everything else is null
      */
     public ResponseEntity<FakeStoreProductDto> replaceProduct(Long productId, FakeStoreProductDto fakeStoreProductDto){
-        RestTemplate restTemplate=restTemplateBuilder.build();
+        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<FakeStoreProductDto> fakeStoreProductDtoResponseEntity = requestForEntity(
                 HttpMethod.PUT,
                 "https://fakestoreapi.com/products/{id}",
@@ -66,7 +66,7 @@ public class FakeStoreClient {
         return fakeStoreProductDtoResponseEntity;
     }
     public ResponseEntity<FakeStoreProductDto> updateProduct(Long productId, FakeStoreProductDto fakeStoreProductDto){
-        RestTemplate restTemplate = restTemplateBuilder.requestFactory(HttpComponentsClientHttpRequestFactory.class).build();
+        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<FakeStoreProductDto> fakeStoreProductDtoResponseEntity = requestForEntity(
                 HttpMethod.PATCH,
                 "https://fakestoreapi.com/products/{id}",
@@ -83,21 +83,21 @@ public class FakeStoreClient {
     }
 
     private <T> ResponseEntity<T> requestForEntity(HttpMethod httpMethod, String url, @Nullable Object request, Class<T> responseType, Object... uriVariables) throws RestClientException {
-        RestTemplate restTemplate=restTemplateBuilder.build();
+        RestTemplate restTemplate = new RestTemplate();
         RequestCallback requestCallback = restTemplate.httpEntityCallback(request, responseType);
         ResponseExtractor<ResponseEntity<T>> responseExtractor = restTemplate.responseEntityExtractor(responseType);
         return (ResponseEntity)restTemplate.execute(url, httpMethod, requestCallback, responseExtractor, uriVariables);
     }
 
     public List<String> getAllCategories(){
-        RestTemplate restTemplate = restTemplateBuilder.build();
+        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String[]> AllCategoryEntities = restTemplate.getForEntity("https://fakestoreapi.com/products/categories",
                 String[].class);
         return Arrays.asList(AllCategoryEntities.getBody());
     };
 
     public ResponseEntity<FakeStoreProductDto[]> getProductsInCategory(String categoryType){
-        RestTemplate restTemplate = restTemplateBuilder.build();
+        RestTemplate restTemplate = new RestTemplate();
 
         ResponseEntity<FakeStoreProductDto[]> productFromCategory = restTemplate.getForEntity("https://fakestoreapi.com/products/category/{type}",
                 FakeStoreProductDto[].class,

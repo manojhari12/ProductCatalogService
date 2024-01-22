@@ -1,6 +1,7 @@
-package dev.manoj.productcatalog.clients.authenticationClient.dtos;
+package dev.manoj.productcatalog.dtos;
 
 
+import dev.manoj.productcatalog.clients.authenticationClient.dtos.Role;
 import lombok.*;
 import org.hibernate.annotations.AnyKeyJavaClass;
 
