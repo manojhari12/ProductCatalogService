@@ -29,8 +29,6 @@ public class SelfProductService implements ProductService{
     private SelfCategoryService categoryService;
     private RestTemplate restTemplate;
 
-
-
     @Override
     public Page<Product> getProducts(String query, int offset, int noOfResults) {
         //Sorting happens on Database and then we fetch the data
