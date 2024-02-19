@@ -1,5 +1,6 @@
 package dev.manoj.productcatalog.services;
 
+import dev.manoj.productcatalog.dtos.ProductNamePriceDto;
 import dev.manoj.productcatalog.dtos.UserDTO;
 import dev.manoj.productcatalog.dtos.ProductDto;
 import dev.manoj.productcatalog.exceptions.NotFoundException;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -130,5 +132,23 @@ public class SelfProductService implements ProductService{
         return userDetails.getBody();
     }
 
+    public List<ProductNamePriceDto> requestFromOrderService(List<Long> productIds){
+
+        List<ProductNamePriceDto> productNamePriceDtoList=new ArrayList<>();
+        for(Long id : productIds){
+            Product product = productRepository.findProductById(id);
+            if(product==null){
+                throw new NotFoundException("Product Not Found");
+            }
+            productNamePriceDtoList.add(
+                    new ProductNamePriceDto(
+                            product.getTitle(),
+                            product.getPrice()
+                    )
+            );
+        }
+        return productNamePriceDtoList;
+
+    }
 
 }

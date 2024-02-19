@@ -8,4 +8,4 @@ scrape_configs:
 
     # The target URL specified in the Prometheus configuration file you provided (prometheus.yml) is used to define the endpoints from which Prometheus should scrape metrics data.
     static_configs:
-      - targets: ["localhost:9000"]
+      - targets: ["localhost:9005"]

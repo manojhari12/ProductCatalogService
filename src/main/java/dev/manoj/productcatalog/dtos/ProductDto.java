@@ -1,15 +1,14 @@
 package dev.manoj.productcatalog.dtos;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 import jakarta.annotation.Nullable;
-import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
 @Builder
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductDto {
 
     private Long id;

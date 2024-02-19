@@ -4,6 +4,7 @@ package dev.manoj.productcatalog.services;
 import dev.manoj.productcatalog.clients.fakeStoreApi.FakeStoreProductDto;
 import dev.manoj.productcatalog.dtos.GetProductRequestDto;
 import dev.manoj.productcatalog.dtos.ProductDto;
+import dev.manoj.productcatalog.dtos.ProductNamePriceDto;
 import dev.manoj.productcatalog.dtos.UserDTO;
 import dev.manoj.productcatalog.exceptions.NotFoundException;
 import dev.manoj.productcatalog.models.Product;
@@ -36,6 +37,8 @@ public interface ProductService {
 
     List<Product> getProductsInCategory(String categoryType);
      UserDTO getUserDetails();
+
+    List<ProductNamePriceDto> requestFromOrderService(List<Long> productIds);
 }
 
 // update product with id 123

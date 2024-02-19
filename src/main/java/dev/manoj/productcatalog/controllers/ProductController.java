@@ -9,6 +9,7 @@ import dev.manoj.productcatalog.clients.authenticationClient.dtos.ValidateTokenR
 import dev.manoj.productcatalog.clients.fakeStoreApi.FakeStoreProductDto;
 import dev.manoj.productcatalog.dtos.GetProductRequestDto;
 import dev.manoj.productcatalog.dtos.ProductDto;
+import dev.manoj.productcatalog.dtos.ProductNamePriceDto;
 import dev.manoj.productcatalog.dtos.UserDTO;
 import dev.manoj.productcatalog.exceptions.NotFoundException;
 import dev.manoj.productcatalog.models.Category;
@@ -54,6 +55,9 @@ public class ProductController {
                 requestDto.getNoOfResults()
         );
     }
+
+
+
     //Only admins should access this API. If not return status code 403: Not authorized
     @GetMapping()
     public ResponseEntity<List<Product>> getAllProducts(@Nullable @RequestHeader("AUTH_TOKEN") String token,
@@ -144,8 +148,10 @@ public class ProductController {
     public UserDTO getUserDetails(){
         return productService.getUserDetails();
     }
-
-
+    @PostMapping("/details")
+    public List<ProductNamePriceDto> requestFromOrderService(@RequestBody List<Long> productIds){
+        return productService.requestFromOrderService(productIds);
+    }
 
 
 }

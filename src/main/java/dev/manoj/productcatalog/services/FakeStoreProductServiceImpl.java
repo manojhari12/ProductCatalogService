@@ -4,6 +4,7 @@ package dev.manoj.productcatalog.services;
 import dev.manoj.productcatalog.clients.fakeStoreApi.FakeStoreClient;
 import dev.manoj.productcatalog.clients.fakeStoreApi.FakeStoreProductDto;
 import dev.manoj.productcatalog.dtos.ProductDto;
+import dev.manoj.productcatalog.dtos.ProductNamePriceDto;
 import dev.manoj.productcatalog.dtos.UserDTO;
 import dev.manoj.productcatalog.exceptions.NotFoundException;
 import dev.manoj.productcatalog.models.Category;
@@ -147,6 +148,14 @@ public class FakeStoreProductServiceImpl implements ProductService {
     public UserDTO getUserDetails() {
         return null;
     }
+
+    @Override
+    public List<ProductNamePriceDto> requestFromOrderService(List<Long> productIds) {
+
+        return null;
+    }
+
+
 
     //RequestForEntity methods
 
